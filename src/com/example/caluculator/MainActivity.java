@@ -14,13 +14,13 @@ public class MainActivity extends Activity implements OnClickListener{
 	private TextView view, history;
 	private Button number1, number2, number3, number4, number5, number6, number7, number8, number9, number0;
 	private Button addition, subtraction, multiplication, division, answer, reverse, memadd, memsub, mem, memcle;
-	private Button clear;
+	private Button clear, dot;
 	
 	private enum operator{add, sub, mul, div, non, };
 	private operator now = operator.non;
-	private int prev = 0;
-	private boolean reset;
-	private int memory = 0;
+	private double prev = 0;
+	private boolean reset, dotflag;
+	private double memory = 0;
 	
 	
 	/** Called when the activity is first created. */
@@ -30,6 +30,7 @@ public class MainActivity extends Activity implements OnClickListener{
         setContentView(R.layout.activity_main);
         
         reset = false;
+        dotflag = false;
         
         view = (TextView) findViewById(R.id.textView1);
         view.setGravity(Gravity.RIGHT);
@@ -89,6 +90,9 @@ public class MainActivity extends Activity implements OnClickListener{
         
         reverse = (Button) findViewById(R.id.button6);
         reverse.setOnClickListener(this);
+        
+        dot = (Button) findViewById(R.id.button23);
+        dot.setOnClickListener(this);
     
         //Memory
         memcle= (Button) findViewById(R.id.button1);
@@ -102,6 +106,8 @@ public class MainActivity extends Activity implements OnClickListener{
         
         mem = (Button) findViewById(R.id.button2);
         mem.setOnClickListener(this);
+        
+        
         
     }
     
@@ -120,7 +126,7 @@ public class MainActivity extends Activity implements OnClickListener{
     		return;
    
     	case R.id.button2:
-    		memory = Integer.parseInt(str);
+    		memory = Double.parseDouble(str);
     		return;
     		
     	case R.id.button3:
@@ -130,6 +136,7 @@ public class MainActivity extends Activity implements OnClickListener{
     		hist += "mem - ";
     		history.setText(hist);
     		reset = false;
+    		dotflag = false;
     		return;
     		
     	case R.id.button4:
@@ -139,6 +146,7 @@ public class MainActivity extends Activity implements OnClickListener{
     		hist += "mem + ";
     		history.setText(hist);
     		reset = false;
+    		dotflag = false;
     		return;
     	}
     	
@@ -148,7 +156,7 @@ public class MainActivity extends Activity implements OnClickListener{
     	switch(v.getId()){
     	
     	case R.id.button11://answer
-    		int ans = 0;
+    		double ans = 0;
     		if(str.length() == 0) {
     			ans = 0;
     		}
@@ -156,19 +164,19 @@ public class MainActivity extends Activity implements OnClickListener{
     		else{
 	    		switch(now){//operator is...
 	    		case add:
-	    			ans = prev+Integer.parseInt(str);
+	    			ans = prev+Double.parseDouble(str);
 	    			break;
 	    			
 	    		case sub:
-	    			ans = prev-Integer.parseInt(str);
+	    			ans = prev-Double.parseDouble(str);
 	    			break;
 	    		
 	    		case mul:
-	    			ans = prev*Integer.parseInt(str);
+	    			ans = prev*Double.parseDouble(str);
 	    			break;
 	    			
 	    		case div:
-	    			ans = prev/Integer.parseInt(str);
+	    			ans = prev/Double.parseDouble(str);
 	    			break;
 	    			
 	    		case non:
@@ -177,46 +185,51 @@ public class MainActivity extends Activity implements OnClickListener{
 	    		}
     		}
     		hist += str;
-			view.setText(Integer.toString(ans));
+			view.setText(Double.toString(ans));
 			history.setText(hist);
 			prev = ans;
 			reset = true;
+    		dotflag = false;
     		return;
     		
     	case R.id.button10://addition
-    		prev = Integer.parseInt(str);
+    		prev = Double.parseDouble(str);
     		now = operator.add;
        		view.setText("");
     		hist += str + " + ";
     		history.setText(hist);
     		reset = false;
+    		dotflag = false;
     		return;
     		
     	case R.id.button9://subtraction
-    		prev = Integer.parseInt(str);
+    		prev = Double.parseDouble(str);
     		now = operator.sub;
     		view.setText("");
     		hist += str + " - ";
     		history.setText(hist);
     		reset = false;
+    		dotflag = false;
     		return;
     		
     	case R.id.button8://multiplication
-    		prev = Integer.parseInt(str);
+    		prev =  Double.parseDouble(str);
     		now = operator.mul;
     		view.setText("");
     		hist += str + " * ";
     		history.setText(hist);
     		reset = false;
+    		dotflag = false;
     		return;
     		
     	case R.id.button7://division
-    		prev = Integer.parseInt(str);
+    		prev = Double.parseDouble(str);
     		now = operator.div;
     		view.setText("");
     		hist += str + " / ";
     		history.setText(hist);
     		reset = false;
+    		dotflag = false;
     		return;
     		
     	case R.id.button5://clear
@@ -225,10 +238,11 @@ public class MainActivity extends Activity implements OnClickListener{
     		now = operator.non;
     		prev = 0;
     		reset = false;
+    		dotflag = false;
     		return;    	
     		
     	case R.id.button6://reverse
-    		str = Integer.toString((Integer.parseInt(str) * -1));
+    		str = Double.toString((Double.parseDouble(str) * -1));
     		view.setText(str);
     		return;
     	}
@@ -239,6 +253,7 @@ public class MainActivity extends Activity implements OnClickListener{
     		view.setText("");
     		str = "";
     		reset = false;
+    		dotflag = false;
     	}
     	
     	if(str.length() > 10){
@@ -296,11 +311,19 @@ public class MainActivity extends Activity implements OnClickListener{
 	    			
 	    		break;
 	    		
+	    	case R.id.button23://.
+	    		if(!dotflag){
+	    			str+= ".";
+	    			dotflag = true;
+	    		}
+	    		break;
 	    	}
     	}
-    	int tmp = Integer.parseInt(str);
-    	str = Integer.toString(tmp);
+    	double tmp = Double.parseDouble(str);
+    	str = Double.toString(tmp);
     	view.setText(str);
     }
+    
+    
     
 }
