@@ -18,9 +18,9 @@ public class MainActivity extends Activity implements OnClickListener{
 	
 	private enum operator{add, sub, mul, div, non, };
 	private operator now = operator.non;
-	private double prev = 0;
+	private int prev = 0;
 	private boolean reset, dotflag;
-	private double memory = 0;
+	private int memory = 0;
 	
 	
 	/** Called when the activity is first created. */
@@ -91,8 +91,8 @@ public class MainActivity extends Activity implements OnClickListener{
         reverse = (Button) findViewById(R.id.button6);
         reverse.setOnClickListener(this);
         
-        dot = (Button) findViewById(R.id.button23);
-        dot.setOnClickListener(this);
+//        dot = (Button) findViewById(R.id.button23);
+//        dot.setOnClickListener(this);
     
         //Memory
         memcle= (Button) findViewById(R.id.button1);
@@ -126,7 +126,7 @@ public class MainActivity extends Activity implements OnClickListener{
     		return;
    
     	case R.id.button2:
-    		memory = Double.parseDouble(str);
+    		memory = Integer.parseInt(str);
     		return;
     		
     	case R.id.button3:
@@ -156,7 +156,7 @@ public class MainActivity extends Activity implements OnClickListener{
     	switch(v.getId()){
     	
     	case R.id.button11://answer
-    		double ans = 0;
+    		int ans = 0;
     		if(str.length() == 0) {
     			ans = 0;
     		}
@@ -164,19 +164,19 @@ public class MainActivity extends Activity implements OnClickListener{
     		else{
 	    		switch(now){//operator is...
 	    		case add:
-	    			ans = prev+Double.parseDouble(str);
+	    			ans = prev+Integer.parseInt(str);
 	    			break;
 	    			
 	    		case sub:
-	    			ans = prev-Double.parseDouble(str);
+	    			ans = prev-Integer.parseInt(str);
 	    			break;
 	    		
 	    		case mul:
-	    			ans = prev*Double.parseDouble(str);
+	    			ans = prev*Integer.parseInt(str);
 	    			break;
 	    			
 	    		case div:
-	    			ans = prev/Double.parseDouble(str);
+	    			ans = prev/Integer.parseInt(str);
 	    			break;
 	    			
 	    		case non:
@@ -185,7 +185,14 @@ public class MainActivity extends Activity implements OnClickListener{
 	    		}
     		}
     		hist += str;
-			view.setText(Double.toString(ans));
+        	if(ans % 1 == 0 && !dotflag){
+        		int ans2 = (int)ans;
+            	str = Integer.toString(ans2);
+        	}
+        	else{
+        		str = Integer.toString(ans);
+        	}
+			view.setText(str);
 			history.setText(hist);
 			prev = ans;
 			reset = true;
@@ -193,7 +200,7 @@ public class MainActivity extends Activity implements OnClickListener{
     		return;
     		
     	case R.id.button10://addition
-    		prev = Double.parseDouble(str);
+    		prev = Integer.parseInt(str);
     		now = operator.add;
        		view.setText("");
     		hist += str + " + ";
@@ -203,7 +210,7 @@ public class MainActivity extends Activity implements OnClickListener{
     		return;
     		
     	case R.id.button9://subtraction
-    		prev = Double.parseDouble(str);
+    		prev = Integer.parseInt(str);
     		now = operator.sub;
     		view.setText("");
     		hist += str + " - ";
@@ -213,7 +220,7 @@ public class MainActivity extends Activity implements OnClickListener{
     		return;
     		
     	case R.id.button8://multiplication
-    		prev =  Double.parseDouble(str);
+    		prev =  Integer.parseInt(str);
     		now = operator.mul;
     		view.setText("");
     		hist += str + " * ";
@@ -223,7 +230,7 @@ public class MainActivity extends Activity implements OnClickListener{
     		return;
     		
     	case R.id.button7://division
-    		prev = Double.parseDouble(str);
+    		prev = Integer.parseInt(str);
     		now = operator.div;
     		view.setText("");
     		hist += str + " / ";
@@ -242,7 +249,7 @@ public class MainActivity extends Activity implements OnClickListener{
     		return;    	
     		
     	case R.id.button6://reverse
-    		str = Double.toString((Double.parseDouble(str) * -1));
+    		str = Integer.toString((Integer.parseInt(str) * -1));
     		view.setText(str);
     		return;
     	}
@@ -319,9 +326,14 @@ public class MainActivity extends Activity implements OnClickListener{
 	    		break;
 	    	}
     	}
-    	double tmp = Double.parseDouble(str);
-    	str = Double.toString(tmp);
-    	view.setText(str);
+    	
+    	if(dotflag){
+
+    	}
+    	
+    	int tmp = Integer.parseInt(str);
+    		str = Integer.toString(tmp);
+    		view.setText(str);
     }
     
     
